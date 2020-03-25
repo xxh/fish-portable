@@ -8,8 +8,8 @@ The docker containers to build portable fish. Originally created for [xxh projec
 
 ## Example
 ```
-mkdir -p /tmp/fish-portable
-cp ./result/* /tmp/fish-portable 
-cd /tmp/fish-portable && tar -xvzf fish-portable-musl-alpine-Linux-x86_64.tar.gz
-./fish
+mkdir /tmp/fish && cd /tmp/fish
+wget https://github.com/xxh/fish-portable/raw/master/result/fish-portable-musl-alpine-Linux-x86_64.tar.gz
+tar -xzf fish-portable-musl-alpine-Linux-x86_64.tar.gz
+./fish.sh
 ```
