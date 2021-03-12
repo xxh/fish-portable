@@ -2,7 +2,7 @@ FROM alpine
 VOLUME /result
 
 ENV NCURSES_VER 6.2
-ENV FISH_VER 3.1.0
+ENV FISH_VER 3.2.0
 ENV LDFLAGS -static
 
 RUN apk update && apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-dev ncurses-libs
@@ -10,8 +10,8 @@ RUN apk update && apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-
 RUN mkdir -p /build /result
 WORKDIR /build
 RUN wget https://invisible-mirror.net/archives/ncurses/ncurses-$NCURSES_VER.tar.gz
-RUN wget https://github.com/fish-shell/fish-shell/releases/download/$FISH_VER/fish-$FISH_VER.tar.gz
-RUN tar xf fish-$FISH_VER.tar.gz && tar xf ncurses-$NCURSES_VER.tar.gz
+RUN wget https://github.com/fish-shell/fish-shell/releases/download/$FISH_VER/fish-$FISH_VER.tar.xz
+RUN tar xf fish-$FISH_VER.tar.xz && tar xf ncurses-$NCURSES_VER.tar.gz
 RUN mkdir -p fish-$FISH_VER/build
 
 WORKDIR /build/ncurses-$NCURSES_VER
