@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Apt install
+      run: apt update && apt install -y xz-utils
     - name: Build
-      run: |
-        ./build-fish-portable-musl-alpine.sh 
+      run: ./build-fish-portable-musl-alpine.sh 
     - name: Test
       run: ls result/fish-portable-musl-alpine-Linux-x86_64.tar.gz
     - name: Release
