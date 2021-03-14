@@ -1,0 +1,23 @@
+name: Build portable Fish shell
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: ./build-fish-portable-musl-alpine.sh 
+    - name: Test
+      run: ls result/fish-portable-musl-alpine-Linux-x86_64.tar.gz
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        files: |
+          result/fish-portable-musl-alpine-Linux-x86_64.tar.gz
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

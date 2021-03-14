@@ -5,7 +5,7 @@ ENV NCURSES_VER 6.2
 ENV FISH_VER 3.2.0
 ENV LDFLAGS -static
 
-RUN apk update && apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-dev ncurses-libs
+RUN apk update && apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-dev ncurses-libs xz
 
 RUN mkdir -p /build /result
 WORKDIR /build
