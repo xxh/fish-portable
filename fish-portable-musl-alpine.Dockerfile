@@ -2,7 +2,7 @@ FROM alpine
 VOLUME /result
 
 ENV NCURSES_VER 6.2
-ENV FISH_VER 3.2.0
+ENV FISH_VER 3.3.1
 ENV LDFLAGS -static
 
 RUN apk update && apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-dev ncurses-libs xz
@@ -18,6 +18,9 @@ WORKDIR /build/ncurses-$NCURSES_VER
 RUN ./configure && make
 RUN cp lib/libncurses.a /usr/lib/ && cp lib/libncurses.a /usr/lib/libcurses.a
 
+COPY enable-static-linking.patch /tmp/enable-static-linking.patch
+WORKDIR /build/fish-$FISH_VER
+RUN patch -p1 -i /tmp/enable-static-linking.patch
 WORKDIR /build/fish-$FISH_VER/build
 # https://github.com/fish-shell/fish-shell/issues/6808#issuecomment-603992552
 RUN mkdir /fish && cmake -DCMAKE_INSTALL_PREFIX=/fish -DCMAKE_BUILD_TYPE=Release  .. && make && make install
