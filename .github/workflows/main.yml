@@ -12,15 +12,29 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+env:
+  BUILDCACHE_DIR: ${{github.workspace}}/.buildcache
+  BUILDCACHE_VERSION: v0.27.0
+  BUILDCACHE_ACCURACY: STRICT
+  BUILDCACHE_MAX_CACHE_SIZE: 1073741824 # 1GiB
+
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: alpine-3.16
     steps:
     - uses: actions/checkout@v2
-    - name: Build
-      run: ./build-fish-portable-musl-alpine.sh 
-    - name: Test
-      run: ls result/fish-portable-musl-alpine-Linux-x86_64.tar.gz
+
+    - name: Restore buildcache
+        uses: actions/cache@v2
+        with:
+          path: ${{env.BUILDCACHE_DIR}}
+          key: buildcache-ubuntu-latest-x86_64
+
+    - name: Install Packages
+      run: |
+        apk update 
+        apk add wget mc alpine-sdk git g++ make cmake ncurses ncurses-dev ncurses-libs xz
+
     - name: Release
       uses: softprops/action-gh-release@v1
       if: startsWith(github.ref, 'refs/tags/')
